@@ -4,7 +4,6 @@ function aditem() {
   const input = document.querySelector("#item");
   const itemName = input.value.trim();
 
-  // Validação: campo vazio ou "maçã"
   if (!itemName || itemName.toLowerCase() === "maçã") {
     alert("Digite um item válido!");
     input.value = "";
@@ -27,10 +26,12 @@ function renderList() {
   const section = document.querySelector(".list");
   section.innerHTML = "";
 
+  items.sort((a, b) => Number(a.checked) - Number(b.checked));
+
   items.forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "item";
-
+    
     div.innerHTML = `
       <div class="item-content">
         <input 
@@ -54,23 +55,20 @@ function renderList() {
     const checkbox = div.querySelector('input[type="checkbox"]');
     const fakeBox = div.querySelector('.custom-checkbox');
 
-    // Clicar na custom-checkbox marca o input
     fakeBox.addEventListener("click", () => {
       checkbox.checked = !checkbox.checked;
       checkbox.dispatchEvent(new Event("change"));
     });
 
-    // Atualiza o estado interno
     checkbox.addEventListener("change", () => {
       const id = parseInt(checkbox.getAttribute("data-id"));
       const item = items.find(i => i.id === id);
       if (item) {
         item.checked = checkbox.checked;
-        saveToLocalStorage();
+        renderList();
       }
     });
 
-    // Botão de remover
     const removeBtn = div.querySelector(".remove-button");
     removeBtn.addEventListener("click", () => {
       const id = parseInt(removeBtn.getAttribute("data-id"));
@@ -113,6 +111,4 @@ function addHideWarningClass() {
   document.querySelector(".warning").classList.add("hide-warning");
 }
 
-// Inicializa a lista ao carregar a página
 window.addEventListener("DOMContentLoaded", verifyLocalStorageItems);
-
