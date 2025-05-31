@@ -4,7 +4,9 @@ function aditem() {
   const input = document.querySelector("#item");
   const itemName = input.value.trim();
 
+  // Validação: campo vazio ou "maçã"
   if (!itemName || itemName.toLowerCase() === "maçã") {
+    alert("Digite um item válido!");
     input.value = "";
     return;
   }
@@ -52,19 +54,18 @@ function renderList() {
     const checkbox = div.querySelector('input[type="checkbox"]');
     const fakeBox = div.querySelector('.custom-checkbox');
 
-    // Alternar estado ao clicar na custom-checkbox
+    // Clicar na div custom-checkbox marca o checkbox
     fakeBox.addEventListener("click", () => {
       checkbox.checked = !checkbox.checked;
       checkbox.dispatchEvent(new Event("change"));
     });
 
-    // Atualiza estado interno no array
+    // Atualiza o estado interno no array
     checkbox.addEventListener("change", () => {
       const id = parseInt(checkbox.getAttribute("data-id"));
       const item = items.find(i => i.id === id);
       if (item) {
         item.checked = checkbox.checked;
-        // símbolo visual não muda, só o estado lógico
       }
     });
 
