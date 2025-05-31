@@ -70,28 +70,62 @@ main {
     margin-inline: auto;
 }
 
+
+
+
 .add-item {
- margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 1.2rem;
-    border: 2px solid var(--border-primary);
-    border-radius: 1.2rem;
-    margin-bottom: 1.6rem;
-    outline: none;
-    color: var(--content-primary);
+  width: 100%;
+  padding: 1.2rem;
+  border: 2px solid var(--border-primary);
+  border-radius: 1.2rem;
+  margin-bottom: 1.6rem;
+  outline: none;
+  color: var(--content-primary);
+  font-size: 1rem;
+  background-color: #fff;
 }
 
 input[type="text"]::placeholder {
-    color: var(--content-tertiary);
+  color: var(--content-tertiary);
+  opacity: 1; /* Garante que a cor seja aplicada em todos os navegadores */
+}
+
+/* Suporte cross-browser para placeholders */
+input[type="text"]::-webkit-input-placeholder {
+  color: var(--content-tertiary);
+}
+input[type="text"]:-moz-placeholder {
+  color: var(--content-tertiary);
+}
+input[type="text"]::-moz-placeholder {
+  color: var(--content-tertiary);
+}
+input[type="text"]:-ms-input-placeholder {
+  color: var(--content-tertiary);
 }
 
 input[type="text"]:hover {
-    border: 2px solid var(--border-hover);
+  border: 2px solid var(--border-hover);
 }
 
 input[type="text"]:focus {
-    border: 2px solid var(--color-brand);
+  border: 2px solid var(--color-brand);
+}
+
+ .botao-adicionar {
+  background-color: #ca3884; /* Ou qualquer cor desejada */
+  color: white;
+  border: none;
+  padding: 1rem 2.4rem;
+  border-radius: 1.2rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  width: 100%;
+}
+.botao-adicionar:hover {
+  background-color: #A52c68;
 }
