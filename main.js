@@ -2,18 +2,17 @@ const items = [];
 
 function aditem() {
   const itemName = document.querySelector("#item").value.trim();
-
-  if (!itemName) return; // evita item vazio
+  if (!itemName) return;
 
   const item = {
+    id: Date.now(), // ID único
     name: itemName,
     checked: false
   };
 
   items.push(item);
-  document.querySelector("#item").value = ""; // limpa o input
-
-  showItemsList(); // mostra os itens na tela
+  document.querySelector("#item").value = "";
+  showItemsList();
 }
 
 const botao = document.querySelector(".botao-adicionar");
@@ -21,22 +20,39 @@ botao.addEventListener("click", aditem);
 
 function showItemsList() {
   const sectionList = document.querySelector(".list");
-  sectionList.innerHTML = ""; // limpa lista antes de recriar
+  sectionList.innerHTML = "";
 
-  items.forEach((item, index) => {
-    sectionList.innerHTML += `
-      <div class="item">
-        <div>
-          <input type="checkbox" name="list" id="item-${index}">
-          <div class="custom-checkbox">
-            <img src="./assets/checked.svg" alt="checked">
-          </div>
-          <label for="item-${index}">${item.name}</label>
+  items.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div>
+        <input type="checkbox" id="item-${item.id}">
+        <div class="custom-checkbox">
+          <img src="./assets/checked.svg" alt="checked">
         </div>
-
-        <button>
-          <img src="./assets/trash-icon.svg" alt="trash icon">
-        </button>
-      </div>`;
+        <label for="item-${item.id}">${item.name}</label>
+      </div>
+      <button class="remove-button" data-id="${item.id}">
+        <img src="./assets/trash-icon.svg" alt="trash icon">
+      </button>
+    `;
+    sectionList.appendChild(div);
   });
+
+  // Adiciona os eventos de click nos botões de remover
+  document.querySelectorAll(".remove-button").forEach(button => {
+    button.addEventListener("click", () => {
+      const idToRemove = parseInt(button.getAttribute("data-id"));
+      removeItem(idToRemove);
+    });
+  });
+}
+
+function removeItem(id) {
+  const index = items.findIndex(item => item.id === id);
+  if (index !== -1) {
+    items.splice(index, 1);
+    showItemsList();
+  }
 }
