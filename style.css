@@ -220,6 +220,7 @@ button {
   border: none;
   background: none;
   color: var(--always-white);
+  cursor: pointer;
 }
  }
 

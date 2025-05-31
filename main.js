@@ -93,3 +93,6 @@ function removeItem(id) {
     }
   }
 }
+ function addHideWarningClass() {
+    document.querySelector(".warning").classList.add("hide-warning")
+ }
