@@ -116,7 +116,7 @@ input[type="text"]:focus {
   border: 2px solid var(--color-brand);
 }
 
- .botao-adicionar {
+.botao-adicionar {
   background-color: #ca3884; /* Ou qualquer cor desejada */
   color: white;
   border: none;
@@ -126,7 +126,7 @@ input[type="text"]:focus {
   cursor: pointer;
   width: 100%;
 }
-.botao-adicionar:hover {
+.botao-adicionar {
   background-color: #A52c68;
 }
 .list {
