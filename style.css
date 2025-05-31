@@ -176,3 +176,16 @@ div:has(input:checked) {
 label {
   cursor: pointer;
 }
+
+button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+img {
+  width: 1.6rem;
+  opacity: 0.7;
+}
