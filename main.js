@@ -34,13 +34,13 @@ function showItemsList() {
         <label for="item-${item.id}">${item.name}</label>
       </div>
       <button class="remove-button" data-id="${item.id}">
-        <img src="./assets/trash-icon.svg" alt="trash icon">
+        <img src="./assets/trash-icon.svg" alt="Remover">
       </button>
     `;
     sectionList.appendChild(div);
   });
 
-  // Adiciona os eventos de click nos botões de remover
+  // Adiciona funcionalidade aos botões de remover
   document.querySelectorAll(".remove-button").forEach(button => {
     button.addEventListener("click", () => {
       const idToRemove = parseInt(button.getAttribute("data-id"));
@@ -54,5 +54,13 @@ function removeItem(id) {
   if (index !== -1) {
     items.splice(index, 1);
     showItemsList();
+
+    const divWarning = document.querySelector(".warning");
+    if (divWarning) {
+      divWarning.classList.remove("hide-warning");
+      setTimeout(() => {
+        divWarning.classList.add("hide-warning");
+      }, 3000);
+    }
   }
 }
