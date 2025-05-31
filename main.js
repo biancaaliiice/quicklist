@@ -28,10 +28,10 @@ function showItemsList() {
     div.innerHTML = `
       <div>
         <input type="checkbox" id="item-${item.id}">
-        <div class="custom-checkbox">
+        <div class="custom-checkbox" onclick="checkItem('${item.name}')">
           <img src="./assets/checked.svg" alt="checked">
         </div>
-        <label for="item-${item.id}">${item.name}</label>
+        <label for="item-${item.id}" onclick="checkItem('${item.name}')">${item.name}</label>
       </div>
       <button class="remove-button" data-id="${item.id}">
         <img src="./assets/trash-icon.svg" alt="Remover">
@@ -63,4 +63,16 @@ function removeItem(id) {
       }, 3000);
     }
   }
+}
+
+function checkItem(itemName) {
+  const item = items.find((item) => item.name === itemName)
+
+  if (item.checked === true) {
+    item.checked = false
+  } else {
+    item.checked = true
+  }
+
+  showItemsList()
 }
