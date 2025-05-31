@@ -1,77 +1,94 @@
 const items = [];
 
 function aditem() {
-  const itemName = document.querySelector("#item").value.trim();
-  if (!itemName) return;
+  const input = document.querySelector("#item");
+  const itemName = input.value.trim();
 
-  const item = {
-    id: Date.now(), // ID único
+  if (!itemName || itemName.toLowerCase() === "maçã") {
+    input.value = "";
+    return;
+  }
+
+  items.push({
+    id: Date.now(),
     name: itemName,
     checked: false
-  };
+  });
 
-  items.push(item);
-  document.querySelector("#item").value = "";
-  showItemsList();
+  input.value = "";
+  renderList();
 }
 
-const botao = document.querySelector(".botao-adicionar");
-botao.addEventListener("click", aditem);
+document.querySelector(".botao-adicionar").addEventListener("click", aditem);
 
-function showItemsList() {
-  const sectionList = document.querySelector(".list");
-  sectionList.innerHTML = "";
+function renderList() {
+  const section = document.querySelector(".list");
+  section.innerHTML = "";
 
-  items.forEach((item) => {
+  items.forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "item";
+
     div.innerHTML = `
-      <div>
-        <input type="checkbox" id="item-${item.id}">
-        <div class="custom-checkbox" onclick="checkItem('${item.name}')">
+      <div class="item-content">
+        <input 
+          type="checkbox" 
+          id="item-${index}" 
+          data-id="${item.id}" 
+          ${item.checked ? "checked" : ""}
+        >
+        <div class="custom-checkbox">
           <img src="./assets/checked.svg" alt="checked">
         </div>
-        <label for="item-${item.id}" onclick="checkItem('${item.name}')">${item.name}</label>
+        <label for="item-${index}">${item.name}</label>
       </div>
       <button class="remove-button" data-id="${item.id}">
         <img src="./assets/trash-icon.svg" alt="Remover">
       </button>
     `;
-    sectionList.appendChild(div);
-  });
 
-  // Adiciona funcionalidade aos botões de remover
-  document.querySelectorAll(".remove-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const idToRemove = parseInt(button.getAttribute("data-id"));
-      removeItem(idToRemove);
+    section.appendChild(div);
+
+    const checkbox = div.querySelector('input[type="checkbox"]');
+    const fakeBox = div.querySelector('.custom-checkbox');
+
+    // Alternar estado ao clicar na custom-checkbox
+    fakeBox.addEventListener("click", () => {
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event("change"));
+    });
+
+    // Atualiza estado interno no array
+    checkbox.addEventListener("change", () => {
+      const id = parseInt(checkbox.getAttribute("data-id"));
+      const item = items.find(i => i.id === id);
+      if (item) {
+        item.checked = checkbox.checked;
+        // símbolo visual não muda, só o estado lógico
+      }
+    });
+
+    // Botão de remover
+    const removeBtn = div.querySelector(".remove-button");
+    removeBtn.addEventListener("click", () => {
+      const id = parseInt(removeBtn.getAttribute("data-id"));
+      removeItem(id);
     });
   });
 }
 
 function removeItem(id) {
-  const index = items.findIndex(item => item.id === id);
+  const index = items.findIndex(i => i.id === id);
   if (index !== -1) {
     items.splice(index, 1);
-    showItemsList();
+    renderList();
 
-    const divWarning = document.querySelector(".warning");
-    if (divWarning) {
-      divWarning.classList.remove("hide-warning");
+    const warning = document.querySelector(".warning");
+    if (warning) {
+      warning.classList.remove("hide-warning");
       setTimeout(() => {
-        divWarning.classList.add("hide-warning");
+        warning.classList.add("hide-warning");
       }, 3000);
     }
   }
 }
-
-function checkItem(itemName) {
-  const item = items.find((item) => item.name === itemName)
-
-    item.checked = !item.checked 
-  
-
-  showItemsList()
-}
-
-
