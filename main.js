@@ -1,4 +1,4 @@
-const items = [];
+let items = [];
 
 function aditem() {
   const input = document.querySelector("#item");
@@ -54,18 +54,19 @@ function renderList() {
     const checkbox = div.querySelector('input[type="checkbox"]');
     const fakeBox = div.querySelector('.custom-checkbox');
 
-    // Clicar na div custom-checkbox marca o checkbox
+    // Clicar na custom-checkbox marca o input
     fakeBox.addEventListener("click", () => {
       checkbox.checked = !checkbox.checked;
       checkbox.dispatchEvent(new Event("change"));
     });
 
-    // Atualiza o estado interno no array
+    // Atualiza o estado interno
     checkbox.addEventListener("change", () => {
       const id = parseInt(checkbox.getAttribute("data-id"));
       const item = items.find(i => i.id === id);
       if (item) {
         item.checked = checkbox.checked;
+        saveToLocalStorage();
       }
     });
 
@@ -76,6 +77,8 @@ function renderList() {
       removeItem(id);
     });
   });
+
+  saveToLocalStorage();
 }
 
 function removeItem(id) {
@@ -93,6 +96,23 @@ function removeItem(id) {
     }
   }
 }
- function addHideWarningClass() {
-    document.querySelector(".warning").classList.add("hide-warning")
- }
+
+function saveToLocalStorage() {
+  localStorage.setItem("items", JSON.stringify(items));
+}
+
+function verifyLocalStorageItems() {
+  const storedItems = localStorage.getItem("items");
+  if (storedItems) {
+    items = JSON.parse(storedItems);
+  }
+  renderList();
+}
+
+function addHideWarningClass() {
+  document.querySelector(".warning").classList.add("hide-warning");
+}
+
+// Inicializa a lista ao carregar a página
+window.addEventListener("DOMContentLoaded", verifyLocalStorageItems);
+
